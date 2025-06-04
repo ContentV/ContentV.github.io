@@ -1,0 +1,553 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="ContentV">
+  <meta name="keywords" content="ContentV, Video Generation, AI, Deep Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ContentV: Efficient Training of Video Generation Models with Limited Compute</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">ContentV: Efficient Training of Video Generation Models with Limited Compute</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              Bytedance Douyin Content Team</span>
+          </div>
+
+          <!-- <div class="is-size-5 publication-authors">
+            <span class="author-block">Video Generation Research Project</span>
+          </div> -->
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- Technique Report Link -->
+              <span class="link-block">
+                <a href="#"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>Report</span>
+                </a>
+              </span>
+              <!-- Code Link -->
+              <span class="link-block">
+                <a href="https://github.com/bytedance/ContentV"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Model Weights Link -->
+              <span class="link-block">
+                <a href="https://huggingface.co/ByteDance/ContentV-8B"
+                   class="external-link button is-normal is-rounded is-dark">
+                   <span class="icon">🤗</span>
+                  <span>Model</span>
+                  </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered">
+        <div class="column is-12">
+          <video id="teaser" autoplay muted loop playsinline style="width: 100%; height: auto; display: block; margin: 0 auto;">
+            <source src="./static/videos/174.seed-44.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">ContentV</span> generates high-quality videos with advanced AI technology.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We present ContentV, an advanced video generation system capable of creating high-quality, coherent and diverse videos.
+          </p>
+          <p>
+            <!-- Our approach leverages state-of-the-art deep learning techniques to generate photorealistic 
+            videos with temporal consistency and high visual fidelity. The system demonstrates remarkable 
+            versatility in handling different content types while maintaining quality and coherence. -->
+          ContentV accelerates DiT-based video generation through three key innovations: 
+          (1) a minimalist model design that enables effective reuse of pre-trained image generation models for video synthesis; 
+          (2) a comprehensive exploration of a multi-stage, efficient training strategy based on Flow Matching;
+          and (3) a low-cost Reinforcement Learning with Human Feedback (RLHF) approach that further enhances generation quality without the need for additional human annotations.
+          <p>
+          With only four weeks of training on 256 64GB AI accelerators, our 8B model achieves state-of-the-art performance in video generation. 
+          Specifically, it scored 85.14 on VBench and is only behind Wan2.1-14b among open-source models. 
+          All code and models are publicly available.
+          </p>
+          <!-- <p>
+            We present ContentV, an advanced video generation system capable of creating high-quality, 
+            diverse videos across multiple categories including humans, animals, scenes, and unusual scenarios.
+          </p>
+          <p>
+            Our approach leverages state-of-the-art deep learning techniques to generate photorealistic 
+            videos with temporal consistency and high visual fidelity. The system demonstrates remarkable 
+            versatility in handling different content types while maintaining quality and coherence.
+          </p> -->
+          <!-- <p>
+            ContentV represents a significant advancement in AI-powered video generation, offering 
+            unprecedented control and quality in synthetic video creation across diverse domains.
+          </p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Human Videos Section -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Human Videos</h2>
+      <div id="human-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/human/2d2f7dbf0d9169f1a34ace2d6482dbd1.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/bf9edda5da76ec3abdb5c7178821ef24.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/9c94e279e2d3e2d9982ef6cdbf328d4f.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/human/f949c1d7d66f2bbce685b87d7c22cee9.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/human/16cc4f85ea66a5950f04e29767299483.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/human/50b6852b104dc74f422e5789da35b673.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/human/3a5520bc40020289209f0815c3b960a4.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/human/7da5e5e7f343f40e8fbc789b99ce0b64.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/a01a2be7ffa97183247678c2de9183f3.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/d80a3e206ffa2cc4fc57d1f48491234c.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/f4947a9443ac0a349862f1caaabfeeae.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Animal Videos Section -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Animal Videos</h2>
+      <div id="animal-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/dfbe1066030c4c8ac1f74514e3063494.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/animal/8046bded189187af02dee5546dd2fa96.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/animal/b814d82ad7931a5734f3e3792f949f50.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/345.seed-45.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/349.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/animal/7a7cf000aca6faa41d4586988c18132e.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/animal/f8770253776bb77808521d1c64756fd5.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Scene Videos Section -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Scene Videos</h2>
+      <div id="scene-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene/5498ad02308b29a62b4383c176afd0e6.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene/e83a2908bf022999161ee826e568ed05.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/1e7811b720496c76fd250a03378247ad.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/aad3651f616e4c2b6c88e90fb4b390bf.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene/bb91cf148b8cd0b046097cb48f41bf16.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Unusual Videos Section -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Creative & Unusual Videos</h2>
+      <div id="unusual-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/unusual/ffbdeb51a1808fb67f6b44d7b7899107.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/animal/946f041af1c36393d4a9e2642311a4f1.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/unusual/5febcf108aec78bba9c8a3a404ae1f6a.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/unusual/a67b8402e673c94ddd787ebf649311ae.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/unusual/fb9c328edcdc1dcdfd85ef1f10dcb448.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/unusual/4316ea58eb444b55e2d0c9abea032d8f.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/unusual/d74695fe58a24145c88485df26678d66.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/abdd3827028bbff430c76efd07269a07.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/animal/f9082704c3d4bf740e66c65f40dd1ba8.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Portrait Videos -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">Portrait Videos</h2>
+      <div id="more-samples-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/6a274048243b2bd1bab8a8d6c62d52ef.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/9af466a3b6bbe8974330e2485bb67480.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/35d172cfe5b4636208eb698b946d5d18.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/39a910bb5370db1e3c658ea25efe36fa.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/42a9890ad204e74c753b05e8dd65417e.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/91dcb48c0b9a4782e1104340826ef9d7.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/94b0bd8213b478239ec22b6311a494ea.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/259a662bd384afac41f73c19347d76c7.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/257259d34ac8fa1a4e69d5e8418022a9.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/a0563cf643340aa7fdd02f821f5063ce.seed-44.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/ba8e66c932f78368ec20c63c2c5c623b.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/e169dabf3c7ffc8416d9b7cab27a38f1.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- More Samples Videos Section -->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 has-text-centered">More Samples</h2>
+      <div id="more-samples-carousel" class="carousel results-carousel">
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/0cc0b26d46be6a6b0692cc222d78cf8a.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/11.seed-45.mp4" type="video/mp4">
+          </video>
+        </div> -->
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/13.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/17.seed-46.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/more_samples/58445d8dcafa45cffc95b340232a98c4.seed-43.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene/5978da66f33564402915f5121df9d907.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/scene/a80c7a43e12e4364ee0d0a57f79b862e.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item">
+          <video poster="" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/641.seed-45.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Additional Features Section -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content">
+          <h2 class="title is-3">Quality & Consistency</h2>
+          <p>
+            ContentV ensures high temporal consistency and visual quality across generated videos,
+            maintaining coherent motion and realistic appearance throughout the sequence.
+          </p>
+          <video autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/10.seed-42.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2 class="title is-3">Diverse Content</h2>
+        <div class="columns is-centered">
+          <div class="column content">
+            <p>
+              ContentV generates diverse content across multiple categories, 
+              demonstrating versatility and adaptability in video synthesis.
+            </p>
+            <video autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/432.seed-45.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{contentv2024,
+  title     = {ContentV: Efficient Training of Video Generation Models with Limited Compute},
+  author    = {Bytedance Douyin Content Team},
+  journal   = {Conference},
+  year      = {2024},
+}</code></pre>
+  </div>
+</section> -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{contentv2025,
+  title     = {ContentV: Efficient Training of Video Generation Models with Limited Compute},
+  author    = {Bytedance Douyin Content Team},
+  year      = {2025},
+  }</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link" href="#">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="#" class="external-link">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
