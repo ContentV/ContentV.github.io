@@ -108,34 +108,14 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present ContentV, an advanced video generation system capable of creating high-quality, coherent and diverse videos.
+          Recent advances in video generation demand increasingly efficient training recipes to mitigate escalating computational costs. 
+          In this report, we present ContentV, an 8B-parameter text-to-video model that achieves state-of-the-art performance (<b>85.14</b> on VBench) after training on 256&times;64GB Neural Processing Units (NPUs) for merely four weeks. 
+          ContentV generates diverse, high-quality videos across multiple resolutions and durations from text prompts, enabled by three key innovations:
+          (1) A minimalist architecture that maximizes reuse of pre-trained image generation models for video generation;
+          (2) A systematic multi-stage training strategy leveraging flow matching for enhanced efficiency; and
+          (3) A cost-effective reinforcement learning with human feedback framework that improves generation quality without requiring additional human annotations.
           </p>
-          <p>
-            <!-- Our approach leverages state-of-the-art deep learning techniques to generate photorealistic 
-            videos with temporal consistency and high visual fidelity. The system demonstrates remarkable 
-            versatility in handling different content types while maintaining quality and coherence. -->
-          ContentV accelerates DiT-based video generation through three key innovations: 
-          (1) a minimalist model design that enables effective reuse of pre-trained image generation models for video synthesis; 
-          (2) a comprehensive exploration of a multi-stage, efficient training strategy based on Flow Matching;
-          and (3) a low-cost Reinforcement Learning with Human Feedback (RLHF) approach that further enhances generation quality without the need for additional human annotations.
-          <p>
-          With only four weeks of training on 256 64GB AI accelerators, our 8B model achieves state-of-the-art performance in video generation. 
-          Specifically, it scored 85.14 on VBench and is only behind Wan2.1-14b among open-source models. 
-          All code and models are publicly available.
-          </p>
-          <!-- <p>
-            We present ContentV, an advanced video generation system capable of creating high-quality, 
-            diverse videos across multiple categories including humans, animals, scenes, and unusual scenarios.
-          </p>
-          <p>
-            Our approach leverages state-of-the-art deep learning techniques to generate photorealistic 
-            videos with temporal consistency and high visual fidelity. The system demonstrates remarkable 
-            versatility in handling different content types while maintaining quality and coherence.
-          </p> -->
-          <!-- <p>
-            ContentV represents a significant advancement in AI-powered video generation, offering 
-            unprecedented control and quality in synthetic video creation across diverse domains.
-          </p> -->
+
         </div>
       </div>
     </div>
@@ -160,7 +140,7 @@
         </div>
         <div class="item">
           <video poster="" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/more_samples/9c94e279e2d3e2d9982ef6cdbf328d4f.seed-43.mp4" type="video/mp4">
+            <source src="./static/videos/more_samples/tokyo-woman.mp4" type="video/mp4">
           </video>
         </div>
         <div class="item">
